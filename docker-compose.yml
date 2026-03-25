@@ -1,0 +1,56 @@
+services:
+  goapp:
+    build: 
+      context: ./backend/
+      dockerfile: Dockerfile
+    container_name: backend
+    ports:
+      - "5461:5461"
+    environment:
+      CREDS_SUBDIR: volume
+    volumes:
+      - ./volume:/app/credentials/
+
+  frontend:
+    build: 
+      context: ./frontend/
+      dockerfile: Dockerfile
+    container_name: frontend
+    environment:
+      ENDPOINT: http://goapp:5461
+    ports:
+      - "4173:4173"
+
+  oracle:
+    image: gvenzl/oracle-free:23-slim
+    container_name: oracle
+    ports:
+      - "1521:1521"
+    environment:
+      ORACLE_PASSWORD: sys_pass
+      APP_USER: appuser 
+      APP_USER_PASSWORD: appuser_pass
+    volumes:
+      - ./init-scripts/oracle/:/container-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "healthcheck.sh"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+      start_interval: 5s
+    restart: unless-stopped
+
+  pagila:
+    image: postgres:17
+    container_name: pagila
+    environment:
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_USER: postgres
+    volumes:
+      - ./init-scripts/postgres/pagila-schema.sql:/docker-entrypoint-initdb.d/1-pagila-schema.sql
+      - ./init-scripts/postgres/pagila-data.sql:/docker-entrypoint-initdb.d/2-pagila-data.sql
+    expose:
+      - 5432
+    ports:
+      - 5432:5432 

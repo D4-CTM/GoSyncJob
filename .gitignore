@@ -1,0 +1,22 @@
+## VUE .gitignore
+# Logs
+**/logs
+**/*.log*
+
+**/node_modules/
+**/dist
+**/dist-ssr
+**/*.local
+
+*.tsbuildinfo
+
+.eslintcache
+
+# Vite
+*.timestamp-*-*.mjs
+
+## Golang ignore
+**/data.json
+**/credentials/
+
+**/*.bak
