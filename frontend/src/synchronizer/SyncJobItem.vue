@@ -62,7 +62,7 @@ async function triggerSync(table: TableMapping) {
                 <div class="flex">
                     <p>{{ table.Owner == TableOwner.MASTER ? table.MasterTableName : table.SlaveTableName }} | Owner: {{ TableOwner[table.Owner]}}</p>
                     <p data-tooltip="Last Sync">{{ new Date(table.LastSync).toLocaleString() }}</p>
-                    <p>{{ table.Owner == TableOwner.MASTER ? table.MasterTableName : table.SlaveTableName }} | Owner: {{ TableOwner[table.Owner]}}</p>
+                    <!-- <p>{{ table.Owner == TableOwner.MASTER ? table.MasterTableName : table.SlaveTableName }} | Owner: {{ TableOwner[table.Owner]}}</p> -->
                 </div>
                 <progress data-tooltip="Click to sync" @click="triggerSync(table)" />
             </fieldset>

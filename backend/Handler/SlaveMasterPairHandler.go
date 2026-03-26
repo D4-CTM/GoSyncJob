@@ -11,6 +11,7 @@ import (
 )
 
 func PostSlaveMasterPairSync(c *gin.Context) {
+	logger.LogInfo("SlaveMasterPairSync reached")
 	key := c.Param("key")
 
 	var dto dtos.TriggerSyncDto
@@ -23,6 +24,7 @@ func PostSlaveMasterPairSync(c *gin.Context) {
 	owner := dto.Owner
 
 	if dto.All {
+		logger.LogInfo("Attempting to sync all tables [Owner: %d]", owner)
 		for _, tn := range pair.Mappings.Tables {
 			if tn.Owner != owner {
 				continue

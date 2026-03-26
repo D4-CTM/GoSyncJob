@@ -1,0 +1,202 @@
+{
+    "pagila-sync" :{
+      "Name": "pagila-sync",
+      "Master": {
+        "Database": "pagila",
+        "Server": "pagila",
+        "Port": 5432,
+        "User": "postgres",
+        "Password": "123456",
+        "DbType": 1
+      },
+      "Slave": {
+        "Database": "FREEPDB1",
+        "Server": "oracle",
+        "Port": 1521,
+        "User": "pagila",
+        "Password": "pagilaPass",
+        "DbType": 0
+      },
+      "Mappings": {
+        "Tables": [
+          {
+            "Owner": 0,
+            "MasterTableName": "country",
+            "SlaveTableName": "country",
+            "LastSync": "0001-01-01T00:00:00Z",
+            "ColumnsMapped": [
+              {"SlaveName": "country_id", "MasterName": "country_id"},
+              {"SlaveName": "country", "MasterName": "country"},
+              {"SlaveName": "last_update", "MasterName": "last_update"}
+            ]
+          },
+          {
+            "Owner": 0,
+            "MasterTableName": "city",
+            "SlaveTableName": "city",
+            "LastSync": "0001-01-01T00:00:00Z",
+            "ColumnsMapped": [
+              {"SlaveName": "city_id", "MasterName": "city_id"},
+              {"SlaveName": "city", "MasterName": "city"},
+              {"SlaveName": "country_id", "MasterName": "country_id"},
+              {"SlaveName": "last_update", "MasterName": "last_update"}
+            ]
+          },
+          {
+            "Owner": 0,
+            "MasterTableName": "language",
+            "SlaveTableName": "language",
+            "LastSync": "0001-01-01T00:00:00Z",
+            "ColumnsMapped": [
+              {"SlaveName": "language_id", "MasterName": "language_id"},
+              {"SlaveName": "name", "MasterName": "name"},
+              {"SlaveName": "last_update", "MasterName": "last_update"}
+            ]
+          },
+          {
+            "Owner": 0,
+            "MasterTableName": "address",
+            "SlaveTableName": "address",
+            "LastSync": "0001-01-01T00:00:00Z",
+            "ColumnsMapped": [
+              {"SlaveName": "address_id", "MasterName": "address_id"},
+              {"SlaveName": "address", "MasterName": "address"},
+              {"SlaveName": "address2", "MasterName": "address2"},
+              {"SlaveName": "district", "MasterName": "district"},
+              {"SlaveName": "city_id", "MasterName": "city_id"},
+              {"SlaveName": "postal_code", "MasterName": "postal_code"},
+              {"SlaveName": "phone", "MasterName": "phone"},
+              {"SlaveName": "last_update", "MasterName": "last_update"}
+            ]
+          },
+          {
+            "Owner": 0,
+            "MasterTableName": "actor",
+            "SlaveTableName": "actor",
+            "LastSync": "0001-01-01T00:00:00Z",
+            "ColumnsMapped": [
+              {"SlaveName": "actor_id", "MasterName": "actor_id"},
+              {"SlaveName": "first_name", "MasterName": "first_name"},
+              {"SlaveName": "last_name", "MasterName": "last_name"},
+              {"SlaveName": "last_update", "MasterName": "last_update"}
+            ]
+          },
+          {
+            "Owner": 0,
+            "MasterTableName": "category",
+            "SlaveTableName": "category",
+            "LastSync": "0001-01-01T00:00:00Z",
+            "ColumnsMapped": [
+              {"SlaveName": "category_id", "MasterName": "category_id"},
+              {"SlaveName": "name", "MasterName": "name"},
+              {"SlaveName": "last_update", "MasterName": "last_update"}
+            ]
+          },
+          {
+            "Owner": 0,
+            "MasterTableName": "store",
+            "SlaveTableName": "store",
+            "LastSync": "0001-01-01T00:00:00Z",
+            "ColumnsMapped": [
+              {"SlaveName": "store_id", "MasterName": "store_id"},
+              {"SlaveName": "manager_staff_id", "MasterName": "manager_staff_id"},
+              {"SlaveName": "address_id", "MasterName": "address_id"},
+              {"SlaveName": "last_update", "MasterName": "last_update"}
+            ]
+          },
+          {
+            "Owner": 0,
+            "MasterTableName": "staff",
+            "SlaveTableName": "staff",
+            "LastSync": "0001-01-01T00:00:00Z",
+            "ColumnsMapped": [
+              {"SlaveName": "staff_id", "MasterName": "staff_id"},
+              {"SlaveName": "first_name", "MasterName": "first_name"},
+              {"SlaveName": "last_name", "MasterName": "last_name"},
+              {"SlaveName": "address_id", "MasterName": "address_id"},
+              {"SlaveName": "email", "MasterName": "email"},
+              {"SlaveName": "store_id", "MasterName": "store_id"},
+              {"SlaveName": "active", "MasterName": "active"},
+              {"SlaveName": "username", "MasterName": "username"},
+              {"SlaveName": "password", "MasterName": "password"},
+              {"SlaveName": "last_update", "MasterName": "last_update"}
+            ]
+          },
+          {
+            "Owner": 0,
+            "MasterTableName": "film",
+            "SlaveTableName": "film",
+            "LastSync": "0001-01-01T00:00:00Z",
+            "ColumnsMapped": [
+              {"SlaveName": "film_id", "MasterName": "film_id"},
+              {"SlaveName": "title", "MasterName": "title"},
+              {"SlaveName": "description", "MasterName": "description"},
+              {"SlaveName": "language_id", "MasterName": "language_id"},
+              {"SlaveName": "original_language_id", "MasterName": "original_language_id"},
+              {"SlaveName": "last_update", "MasterName": "last_update"}
+            ]
+          },
+          {
+            "Owner": 0,
+            "MasterTableName": "inventory",
+            "SlaveTableName": "inventory",
+            "LastSync": "0001-01-01T00:00:00Z",
+            "ColumnsMapped": [
+              {"SlaveName": "inventory_id", "MasterName": "inventory_id"},
+              {"SlaveName": "film_id", "MasterName": "film_id"},
+              {"SlaveName": "store_id", "MasterName": "store_id"},
+              {"SlaveName": "last_update", "MasterName": "last_update"}
+            ]
+          },
+          {
+            "Owner": 1,
+            "MasterTableName": "customer",
+            "SlaveTableName": "customer",
+            "LastSync": "0001-01-01T00:00:00Z",
+            "ColumnsMapped": [
+              {"SlaveName": "customer_id", "MasterName": "customer_id"},
+              {"SlaveName": "store_id", "MasterName": "store_id"},
+              {"SlaveName": "first_name", "MasterName": "first_name"},
+              {"SlaveName": "last_name", "MasterName": "last_name"},
+              {"SlaveName": "email", "MasterName": "email"},
+              {"SlaveName": "address_id", "MasterName": "address_id"},
+              {"SlaveName": "activebool", "MasterName": "activebool"},
+              {"SlaveName": "create_date", "MasterName": "create_date"},
+              {"SlaveName": "last_update", "MasterName": "last_update"},
+              {"SlaveName": "active", "MasterName": "active"}
+            ]
+          },
+          {
+            "Owner": 1,
+            "MasterTableName": "rental",
+            "SlaveTableName": "rental",
+            "LastSync": "0001-01-01T00:00:00Z",
+            "ColumnsMapped": [
+              {"SlaveName": "rental_id", "MasterName": "rental_id"},
+              {"SlaveName": "rental_date", "MasterName": "rental_date"},
+              {"SlaveName": "inventory_id", "MasterName": "inventory_id"},
+              {"SlaveName": "customer_id", "MasterName": "customer_id"},
+              {"SlaveName": "return_date", "MasterName": "return_date"},
+              {"SlaveName": "staff_id", "MasterName": "staff_id"},
+              {"SlaveName": "last_update", "MasterName": "last_update"}
+            ]
+          },
+          {
+            "Owner": 1,
+            "MasterTableName": "payment",
+            "SlaveTableName": "payment",
+            "LastSync": "0001-01-01T00:00:00Z",
+            "ColumnsMapped": [
+              {"SlaveName": "payment_id", "MasterName": "payment_id"},
+              {"SlaveName": "customer_id", "MasterName": "customer_id"},
+              {"SlaveName": "staff_id", "MasterName": "staff_id"},
+              {"SlaveName": "rental_id", "MasterName": "rental_id"},
+              {"SlaveName": "amount", "MasterName": "amount"},
+              {"SlaveName": "payment_date", "MasterName": "payment_date"},
+              {"SlaveName": "last_update", "MasterName": "last_update"}
+            ]
+          }
+        ]
+      }
+    }
+}

@@ -60,7 +60,7 @@ func LoadSMPM() error {
 	volPath := path.Join(os.Getenv("CREDS_SUBDIR"), "mappings.json")
 	logger.LogInfo("Loading mappings from: %s", volPath)
 
-	if err := readFromJson(path.Join(volPath, "mappings.json"), &SMMap); err != nil {
+	if err := readFromJson(volPath, &SMMap); err != nil {
 		SMMap = make(SlaveMasterMap)
 		return err;
 	}
@@ -73,7 +73,7 @@ func SaveSMPM() error {
 	volPath := path.Join(os.Getenv("CREDS_SUBDIR"), "mappings.json")
 	logger.LogInfo("Loading mappings from: %s", volPath)
 
-	if err := saveToJson(path.Join(volPath, "mappings.json"), SMMap); err != nil {
+	if err := saveToJson(volPath, SMMap); err != nil {
 		return err;
 	}
 

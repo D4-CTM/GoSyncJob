@@ -6,7 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	_ "github.com/godror/godror"
-	pq "github.com/lib/pq"
+	_ "github.com/lib/pq"
 )
 
 type DbType int
@@ -38,20 +38,15 @@ func (c *Credentials) createOracleDb() error {
 }
 
 func (c *Credentials) createPostgreDb() error {
-	cfg := pq.Config{
-		Host: c.Server,
-		Port: uint16(c.Port),
-		Database: c.Database,
-		Password: c.Password,
-		User: c.User,
-	}
-	
-	con, err := pq.NewConnectorConfig(cfg)
+	connStr := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
+		c.Server, c.Port, c.User, c.Password, c.Database)
+
+	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		return err
 	}
 
-	c.db = sql.OpenDB(con)
+	c.db = db
 	return nil
 }
 
@@ -83,9 +78,9 @@ func (c *Credentials) connect() error {
 		return nil
 	}
 
-	if (c.DbType == ORACLE) {
+	if c.DbType == ORACLE {
 		return c.createOracleDb()
-	} else if (c.DbType == POSTGRES) {
+	} else if c.DbType == POSTGRES {
 		return c.createPostgreDb()
 	}
 
@@ -103,14 +98,16 @@ func (c *Credentials) Ping() error {
 }
 
 func (c *Credentials) Placeholder(paramIdx int) string {
-	switch (c.DbType) {
-		case ORACLE: return fmt.Sprintf(":%d", paramIdx)
-		case POSTGRES: return fmt.Sprintf("$%d", paramIdx)
+	switch c.DbType {
+	case ORACLE:
+		return fmt.Sprintf(":%d", paramIdx)
+	case POSTGRES:
+		return fmt.Sprintf("$%d", paramIdx)
 	}
 	return "?"
 }
 
-func CreateCredFromGin(c *gin.Context) (*Credentials, error) {	
+func CreateCredFromGin(c *gin.Context) (*Credentials, error) {
 	cred := Credentials{}
 	if err := c.ShouldBind(&cred); err != nil {
 		return nil, fmt.Errorf("Unable to bind 'Credential': %v", err)
@@ -130,4 +127,3 @@ func (c *Credentials) Close() error {
 
 	return nil
 }
-

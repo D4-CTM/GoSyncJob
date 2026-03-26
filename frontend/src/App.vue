@@ -20,8 +20,24 @@ getPairs();
 async function syncIn() {
     const pairName = pairNames.value[0];
     const dto: TriggerSyncDto = {
-        owner: TableOwner.MASTER,
-        all: true
+        Owner: TableOwner.MASTER,
+        All: true,
+        Table: ''
+    };
+    try {
+        const result = await Post<string, TriggerSyncDto>(`/api/pairs/${pairName}/sync`, dto);
+        alert(result);
+    } catch (ex) {
+        alert(ex);
+    }
+}
+
+async function syncOut() {
+    const pairName = pairNames.value[0];
+    const dto: TriggerSyncDto = {
+        Owner: TableOwner.SLAVE,
+        All: true,
+        Table: ''
     };
     try {
         const result = await Post<string, TriggerSyncDto>(`/api/pairs/${pairName}/sync`, dto);
@@ -37,7 +53,7 @@ async function syncIn() {
         <header>
             <h1>Synchronizer</h1>
             <div class="sync-container">
-                <button class="secondary">Sync-OUT</button>
+                <button @click="syncOut" class="secondary">Sync-OUT</button>
                 <button @click="syncIn">Sync-IN</button>
             </div>
         </header>
