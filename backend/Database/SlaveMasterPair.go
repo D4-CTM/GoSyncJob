@@ -23,13 +23,12 @@ type TableMapping struct {
 	Owner TableOwner
 	MasterTableName string
 	SlaveTableName string
+	LastSync time.Time
 	ColumnsMapped []ColumnMapping
 }
 
 type Mapping struct {
 	Tables []TableMapping
-	LastMasterSync time.Time
-	LastSlaveSync time.Time
 }
 
 type SlaveMasterPair struct {
@@ -80,4 +79,3 @@ func (p *SlaveMasterPair) Close() error {
 
 	return fmt.Errorf(errStr)
 }
-

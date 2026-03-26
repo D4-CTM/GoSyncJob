@@ -9,6 +9,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+const (
+	SLAVE string = "Slave"
+	MASTER string = "Master"
+)
+
 func GetSlaveMasterPairs(c *gin.Context) {
 	pairs := make([]string, len(database.SMMap))
 	idx := 0
@@ -36,7 +41,8 @@ func DeleteSlaveMasterPair(c *gin.Context) {
 	pairName := c.Param("key")
 	pair := database.SMMap[pairName]
 	if err := pair.Close(); err != nil {
-		logger.LogErr("%v", err)
+		logger.InternalServerError(c, err)
+		return
 	}
 
 	delete(database.SMMap, pairName)

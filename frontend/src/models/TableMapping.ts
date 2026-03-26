@@ -8,15 +8,19 @@ export interface ColumnMapping {
     MasterName: string
 }
 
-export interface TableMapping {
+export class TableMapping {
     Owner: TableOwner
-    MasterTableName: string,
+    MasterTableName: string
     SlaveTableName: string
+    LastSync: Date
     ColumnsMapped: ColumnMapping[]
+
+    fmtName = () =>
+        this.Owner === TableOwner.SLAVE
+            ? this.SlaveTableName
+            : this.MasterTableName
 }
 
 export interface Mapping {
     Tables: TableMapping[]
-	LastMasterSync: Date
-	LastSlaveSync: Date
 }

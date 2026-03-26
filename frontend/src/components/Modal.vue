@@ -18,14 +18,14 @@ const props = defineProps({
 
 const dialogRef = useTemplateRef("dialogRef")
 
-const emit = defineEmits(['confirm'])
+const emit = defineEmits(['confirm', 'cancel'])
 function confirm() {
     emit('confirm', () => dialogRef.value.close())
 }
 
-dialogRef.value.addEventListener('cancel', e => {
-  e.preventDefault()
-})
+function cancel() {
+    emit('cancel', () => dialogRef.value.close())
+}
 </script>
 
 <template>
@@ -39,7 +39,7 @@ dialogRef.value.addEventListener('cancel', e => {
             <slot/>
             <footer>
                 <button class="secondary"
-                        @click="dialogRef.close()">
+                        @click="cancel">
                     Cancel
                 </button>
                 <button @click="confirm">

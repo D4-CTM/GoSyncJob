@@ -79,6 +79,14 @@ func (c *Credentials) Ping() error {
 	return c.db.Ping()
 }
 
+func (c *Credentials) Placeholder(paramIdx int) string {
+	switch (c.DbType) {
+		case ORACLE: return fmt.Sprintf(":%d", paramIdx)
+		case POSTGRES: return fmt.Sprintf("$%d", paramIdx)
+	}
+	return "?"
+}
+
 func CreateCredFromGin(c *gin.Context) (*Credentials, error) {	
 	cred := Credentials{}
 	if err := c.ShouldBind(&cred); err != nil {
