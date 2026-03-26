@@ -6,6 +6,7 @@ import (
 	"os/signal"
 	database "syncjob/Database"
 	handler "syncjob/Handler"
+	jobs "syncjob/Handler/Jobs"
 	"syncjob/Logger"
 	"syscall"
 	"time"
@@ -34,6 +35,10 @@ func main() {
 	r.DELETE("api/pairs/:key", handler.DeleteSlaveMasterPair)
 
 	r.POST("api/credentials/ping", handler.PostCredentialsPing)
+
+	r.POST("api/pairs/:key/sync", handler.PostSlaveMasterPairSync)
+
+	jobs.Init()
 
 	go func() {
 		logger.LogInfo("Server running at: http://localhost%s\n", ADDR)

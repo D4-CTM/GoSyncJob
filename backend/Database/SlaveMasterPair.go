@@ -27,8 +27,56 @@ type TableMapping struct {
 	ColumnsMapped []ColumnMapping
 }
 
+func (tm *TableMapping) GetSourceTableName() string {
+	switch tm.Owner {
+	case SLAVE:
+		return tm.SlaveTableName
+	case MASTER:
+		return tm.MasterTableName
+	}
+
+	return ""
+}
+
+func (tm *TableMapping) GetTargetTableName() string {
+	switch tm.Owner {
+	case SLAVE:
+		return tm.MasterTableName
+	case MASTER:
+		return tm.SlaveTableName
+	}
+
+	return ""
+}
+
 type Mapping struct {
 	Tables []TableMapping
+}
+
+func (m *Mapping) GetTableNamesFromOwner(owner TableOwner) []string {
+	names := []string{}
+	for _, tm := range m.Tables {
+		if tm.Owner != owner {
+			continue
+		}
+		names = append(names, tm.GetSourceTableName())
+	}
+
+	return names
+}
+
+func (m *Mapping) ContainsTable(table string, owner TableOwner) *TableMapping{
+	for _, tn := range m.Tables {
+		if tn.Owner != owner {
+			continue
+		}
+
+		if tn.GetSourceTableName() == table {
+			return &tn
+		}
+	}
+
+	return nil
 }
 
 type SlaveMasterPair struct {

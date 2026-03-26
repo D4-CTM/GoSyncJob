@@ -11,20 +11,6 @@ QUOTA UNLIMITED ON USERS;
 
 GRANT CREATE SESSION TO pagila;
 
-CREATE USER slave
-IDENTIFIED BY "SlavePass"
-DEFAULT TABLESPACE USERS
-TEMPORARY TABLESPACE TEMP;
-
-GRANT CREATE SESSION TO slave;
-
-CREATE USER master 
-IDENTIFIED BY "MasterPass"
-DEFAULT TABLESPACE USERS
-TEMPORARY TABLESPACE TEMP;
-
-GRANT CREATE SESSION TO master;
-
 ALTER SESSION SET CURRENT_SCHEMA = pagila;
 
 ---
@@ -392,49 +378,5 @@ BEGIN
     VALUES (v_operation, v_old, v_new);
 END;
 /
-
-COMMIT;
----
--- PERMISSIONS
----
-GRANT SELECT, INSERT, UPDATE, DELETE ON pagila.actor TO master;
-GRANT SELECT, INSERT, UPDATE, DELETE ON pagila.category TO master;
-GRANT SELECT, INSERT, UPDATE, DELETE ON pagila.film TO master;
-GRANT SELECT, INSERT, UPDATE, DELETE ON pagila.film_actor TO master;
-GRANT SELECT, INSERT, UPDATE, DELETE ON pagila.film_category TO master;
-GRANT SELECT, INSERT, UPDATE, DELETE ON pagila.address TO master;
-GRANT SELECT, INSERT, UPDATE, DELETE ON pagila.city TO master;
-GRANT SELECT, INSERT, UPDATE, DELETE ON pagila.country TO master;
-GRANT SELECT, INSERT, UPDATE, DELETE ON pagila.inventory TO master;
-GRANT SELECT, INSERT, UPDATE, DELETE ON pagila.language TO master;
-GRANT SELECT, INSERT, UPDATE, DELETE ON pagila.staff TO master;
-GRANT SELECT, INSERT, UPDATE, DELETE ON pagila.store TO master;
-
-GRANT SELECT ON pagila.actor TO slave;
-GRANT SELECT ON pagila.category TO slave;
-GRANT SELECT ON pagila.film TO slave;
-GRANT SELECT ON pagila.film_actor TO slave;
-GRANT SELECT ON pagila.film_category TO slave;
-GRANT SELECT ON pagila.address TO slave;
-GRANT SELECT ON pagila.city TO slave;
-GRANT SELECT ON pagila.country TO slave;
-GRANT SELECT ON pagila.inventory TO slave;
-GRANT SELECT ON pagila.language TO slave;
-GRANT SELECT ON pagila.staff TO slave;
-GRANT SELECT ON pagila.store TO slave;
-
-GRANT SELECT ON pagila.customer TO master;
-GRANT SELECT ON pagila.customer_log TO master;
-GRANT SELECT ON pagila.rental TO master;
-GRANT SELECT ON pagila.rental_log TO master;
-GRANT SELECT ON pagila.payment TO master;
-GRANT SELECT ON pagila.payment_log TO master;
-
-GRANT SELECT, INSERT, UPDATE, DELETE ON pagila.customer TO slave;
-GRANT SELECT, INSERT, UPDATE, DELETE ON pagila.customer_log TO slave;
-GRANT SELECT, INSERT, UPDATE, DELETE ON pagila.rental TO slave;
-GRANT SELECT, INSERT, UPDATE, DELETE ON pagila.rental_log TO slave;
-GRANT SELECT, INSERT, UPDATE, DELETE ON pagila.payment TO slave;
-GRANT SELECT, INSERT, UPDATE, DELETE ON pagila.payment_log TO slave;
 
 COMMIT;

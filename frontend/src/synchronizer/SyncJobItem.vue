@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { Get } from '@/helper/HttpCaller';
+import { Get, Post } from '@/helper/HttpCaller';
 import { DatabaseType } from '@/models/Credentials';
 import { SlaveMasterPair } from '@/models/SlaveMasterPair';
-import { TableOwner } from '@/models/TableMapping';
+import { TableMapping, TableOwner } from '@/models/TableMapping';
+import { TriggerSyncDto } from '@/models/TriggerSyncDto';
 import { ref } from 'vue';
 
 const props = defineProps({
@@ -12,32 +13,7 @@ const props = defineProps({
     }
 });
 
-let pair = ref({
-    Master: {
-        DbType: DatabaseType.POSTGRES,
-        Database: 'Pagila'
-    },
-    Slave: {
-        DbType: DatabaseType.ORACLE,
-        Database: 'FREEPDB1'
-    },
-    Mappings: {
-        Tables: [
-            {
-                Owner: TableOwner.MASTER,
-                MasterTableName: 'rental',
-                SlaveTableName: 'RENTAL',
-                LastSync: new Date(),
-            },
-            {
-                Owner: TableOwner.SLAVE,
-                MasterTableName: 'Payment',
-                SlaveTableName: 'PAYMENT',
-                LastSync: new Date(),
-            }
-        ]
-    }
-} as SlaveMasterPair);
+let pair = ref({} as SlaveMasterPair);
 
 async function getPair() {
     const pairName = props.PairName;
@@ -48,7 +24,24 @@ async function getPair() {
         alert(ex);
     }
 }
-// getPair();
+getPair();
+
+async function triggerSync(table: TableMapping) {
+    const pairName = props.PairName;
+    const dto: TriggerSyncDto = {
+        owner: table.Owner,
+        all: false,
+        table: table.Owner === TableOwner.MASTER 
+            ? table.MasterTableName 
+            : table.SlaveTableName
+    };
+    try {
+        const result = await Post<string, TriggerSyncDto>(`/api/pairs/${pairName}/sync`, dto);
+        alert(result);
+    } catch (ex) {
+        alert(ex);
+    }
+}
 </script>
 
 <template>
@@ -71,7 +64,7 @@ async function getPair() {
                     <p data-tooltip="Last Sync">{{ new Date(table.LastSync).toLocaleString() }}</p>
                     <p>{{ table.Owner == TableOwner.MASTER ? table.MasterTableName : table.SlaveTableName }} | Owner: {{ TableOwner[table.Owner]}}</p>
                 </div>
-                <progress />
+                <progress data-tooltip="Click to sync" @click="triggerSync(table)" />
             </fieldset>
         </section>
     </div>
@@ -84,7 +77,7 @@ async function getPair() {
 }
 
 .grid {
-    padding-bottom: 15px;
+    padding-bottom: 25px;
 }
 
 fieldset {

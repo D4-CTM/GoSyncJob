@@ -55,6 +55,29 @@ func (c *Credentials) createPostgreDb() error {
 	return nil
 }
 
+func (c *Credentials) CreateOffsetStmt(skip int, take int) string {
+	switch c.DbType {
+	case POSTGRES:
+		return fmt.Sprintf(
+			"LIMIT %d OFFSET %d",
+			take,
+			skip,
+		)
+	case ORACLE:
+		return fmt.Sprintf(
+			"OFFSET %d ROWS FETCH NEXT %d ROWS ONLY",
+			take,
+			skip,
+		)
+	}
+
+	return ""
+}
+
+func (c *Credentials) GetDb() *sql.DB {
+	return c.db
+}
+
 func (c *Credentials) connect() error {
 	if c.db != nil {
 		return nil
